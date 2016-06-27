@@ -2,7 +2,7 @@
 #
 # build from clean checkout
 #
-set -euo pipefail
+set -xeuo pipefail
 IFS=$'\n\t'
 
 name="$(awk '/<project name="([^"]*)"/ && !done {print gensub(/<project name="([^"]*)".*/, "\\1", "g"); done=1}' build.xml
@@ -64,6 +64,7 @@ git log --oneline -1
 ulimit -Sn $(ulimit -Hn)
 
 set +e
+ls -altrh build/vendor/phing/phing/bin/phing
 php -f build/vendor/phing/phing/bin/phing -dphar.readonly=0 -- -verbose dist
 BUILD_STATUS=$?
 set -e
